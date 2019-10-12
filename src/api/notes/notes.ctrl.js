@@ -155,8 +155,6 @@ export const write = async ctx => {
   GET /api/notes/:id
 */
 export const read = async ctx => {
-  console.log(ctx.params);
-  console.log(ctx.state);
   ctx.body = ctx.state.note;
 };
 

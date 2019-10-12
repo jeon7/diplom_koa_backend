@@ -5,15 +5,15 @@ import jwt from 'jsonwebtoken';
 const UserSchema = new Schema({
   username: String,
   hashedPassword: String,
-  bookmarkedNotes: [{
-    type: mongoose.Types.ObjectId,
-    ref: 'Note'
-  }],
-  mealPlanNotes: [{
-    type: mongoose.Types.ObjectId,
-    ref: 'Note',
-    portion: Number,
-    planed: String
+  bookmarkedNoteIds: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: 'Note'
+    }
+  ],
+  shoppingCart: [{
+    noteId: { type: mongoose.Types.ObjectId, ref: 'Note' },
+    cookingPortion: Number,
   }],
 });
 
@@ -56,6 +56,18 @@ UserSchema.methods.generateToken = function () {
   );
   return token;
 }
+
+UserSchema.methods.addBookmark = function (noteId) {
+  this.bookmarkedNoteId.push(noteId);
+  return this.save();
+}
+
+UserSchema.methods.removeBookmark = function (noteId) {
+  this.bookmarkedNoteId.pull(noteId);
+  return this.save();
+}
+
+
 
 const User = mongoose.model('User', UserSchema);
 export default User;

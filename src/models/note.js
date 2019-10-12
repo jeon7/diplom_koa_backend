@@ -10,10 +10,6 @@ const NoteSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  modifiedDate: {
-    type: Date,
-    default: Date.now,
-  },
   user: {
     _id: mongoose.Types.ObjectId,
     username: String,
