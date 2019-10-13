@@ -5,32 +5,35 @@ import Joi from 'joi';
 const { ObjectId } = mongoose.Types;
 
 /*
-  GET /api/meals
+  GET /api/plan
 */
 export const list = async ctx => {
   const { user } = ctx.state;
   try {
     // populate
-    const result = await User.findOne({ _id: user._id }).populate('meals.noteId');
-    console.log(result.meals);
-    ctx.body = result.meals;
+    const result = await User.findOne({ _id: user._id }).populate('plan.noteId');
+    console.log(result.plan);
+    ctx.body = result.plan;
   } catch (e) {
     ctx.throw(500, e);
   }
 };
 
 /*
-  PATCH /api/meals/add
+  PATCH /api/plan/add
   {
-    "noteId": "",
+    "noteId": "noteId",
     "cookingPortion": 3
+    "index": "w1,d1,m1"
   }
 */
 export const add = async ctx => {
   const schema = Joi.object().keys({
     // 객체가 다음 필드를 가지고 있음을 검증
     noteId: Joi.string().required(),
-    cookingPortion: Joi.number().required()
+    cookingPortion: Joi.number().required(),
+    index: Joi.string().required(),
+
   });
 
   // 검증 후, 검증 실패시 에러처리
@@ -43,13 +46,14 @@ export const add = async ctx => {
 
   try {
     const { user } = ctx.state;
-    const { noteId, cookingPortion } = ctx.request.body;
+    const { noteId, cookingPortion, index } = ctx.request.body;
     const meal = {
       noteId: noteId,
-      cookingPortion: cookingPortion
+      cookingPortion: cookingPortion,
+      index: index
     }
     User.findOneAndUpdate({ '_id': user._id },
-      { $push: { meals: meal } }, function (err, data) {
+      { $push: { plan: meal } }, function (err, data) {
         console.log(data);
         if (err) {
           ctx.status = 500;
@@ -69,7 +73,7 @@ export const add = async ctx => {
 };
 
 /*
-  PATCH /api/meals/remove/:id(mealObjId)
+  PATCH /api/plan/remove/:id(mealObjId)
 */
 export const remove = async ctx => {
   const { id } = ctx.params;
@@ -81,7 +85,7 @@ export const remove = async ctx => {
   try {
     const { user } = ctx.state;
     const userModel = await User.findById(user._id);
-    userModel.meals.pull(id);
+    userModel.plan.pull(id);
     userModel.save();
     ctx.body = userModel;
   } catch (e) {

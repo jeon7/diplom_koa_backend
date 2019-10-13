@@ -4,7 +4,7 @@ import * as bookmarksCtrl from './bookmarks.ctrl';
 
 const bookmarks = new Router();
 
-bookmarks.get('/', bookmarksCtrl.list); // list 
+bookmarks.get('/', checkedLoggedIn, bookmarksCtrl.list); // list 
 bookmarks.patch('/add/:id', checkedLoggedIn, bookmarksCtrl.add);
 bookmarks.patch('/remove/:id', checkedLoggedIn, bookmarksCtrl.remove);
 

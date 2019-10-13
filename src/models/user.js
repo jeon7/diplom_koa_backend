@@ -11,7 +11,12 @@ const UserSchema = new Schema({
       ref: 'Note'
     }
   ],
-  meals: [{
+  plan: [{
+    noteId: { type: mongoose.Types.ObjectId, ref: 'Note' },
+    cookingPortion: Number,
+    index: String
+  }],
+  shopping: [{
     noteId: { type: mongoose.Types.ObjectId, ref: 'Note' },
     cookingPortion: Number,
   }],
