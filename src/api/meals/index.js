@@ -4,8 +4,8 @@ import * as mealsCtrl from './meals.ctrl';
 
 const meals = new Router();
 
-// meals.get('/', mealsCtrl.list); // list 
-meals.patch('/add/:id', checkedLoggedIn, mealsCtrl.add);
+meals.get('/', mealsCtrl.list); // list 
+meals.patch('/add', checkedLoggedIn, mealsCtrl.add);
 meals.patch('/remove/:id', checkedLoggedIn, mealsCtrl.remove);
 
 export default meals;

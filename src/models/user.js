@@ -11,7 +11,7 @@ const UserSchema = new Schema({
       ref: 'Note'
     }
   ],
-  shoppingCart: [{
+  meals: [{
     noteId: { type: mongoose.Types.ObjectId, ref: 'Note' },
     cookingPortion: Number,
   }],
@@ -58,12 +58,12 @@ UserSchema.methods.generateToken = function () {
 }
 
 UserSchema.methods.addBookmark = function (noteId) {
-  this.bookmarkedNoteId.push(noteId);
+  this.bookmarkedNoteIds.push(noteId);
   return this.save();
 }
 
 UserSchema.methods.removeBookmark = function (noteId) {
-  this.bookmarkedNoteId.pull(noteId);
+  this.bookmarkedNoteIds.pull(noteId);
   return this.save();
 }
 
