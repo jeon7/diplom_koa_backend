@@ -11,7 +11,6 @@ export const list = async ctx => {
   try {
     // populate
     const result = await User.findOne({ _id: user._id }).populate('bookmarkedNoteIds');
-    console.log(result.bookmarkedNoteIds);
     ctx.body = result.bookmarkedNoteIds;
   } catch (e) {
     ctx.throw(500, e);

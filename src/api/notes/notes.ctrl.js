@@ -30,7 +30,6 @@ const sanitizeOption = {
 };
 
 export const getNoteById = async (ctx, next) => {
-  console.log(ctx.params);
   const { id } = ctx.params;
   if (!ObjectId.isValid(id)) {
     ctx.status = 400; // Bad Request

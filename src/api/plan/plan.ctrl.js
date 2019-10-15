@@ -12,7 +12,6 @@ export const list = async ctx => {
   try {
     // populate
     const result = await User.findOne({ _id: user._id }).populate('plan.noteId');
-    console.log(result.plan);
     ctx.body = result.plan;
   } catch (e) {
     ctx.throw(500, e);
