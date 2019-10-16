@@ -2,6 +2,7 @@ import Note from '../../models/note';
 import mongoose from 'mongoose';
 import Joi from 'joi';
 import sanitizeHtml from 'sanitize-html';
+import User from '../../models/user';
 
 const { ObjectId } = mongoose.Types;
 
@@ -217,4 +218,51 @@ export const remove = async ctx => {
   }
 };
 
+///////////////////////////////////
 
+
+
+/*
+  PATCH /api/notes?bookmark=list/add/remove&id=
+*/
+export const bookmarkCtrl = async ctx => {
+
+  const { bookmark, id } = ctx.query;
+  const { user } = ctx.state;
+
+  // list bookmarks
+  if (bookmark === 'list') {
+    try {
+      // populate
+      const result = await User.findOne({ _id: user._id }).populate('bookmarkedNoteIds');
+      ctx.body = result.bookmarkedNoteIds;
+    } catch (e) {
+      ctx.throw(500, e);
+    }
+  }
+
+  if (bookmark === 'add') {
+    try {
+      const { user } = ctx.state;
+      const userModel = await User.findById(user._id);
+      await userModel.addBookmark(id);
+      ctx.body = userModel;
+
+    } catch (e) {
+      ctx.throw(500, e);
+    }
+  }
+
+  if (bookmark === 'remove') {
+    try {
+      const { user } = ctx.state;
+      const userModel = await User.findById(user._id);
+      await userModel.removeBookmark(id);
+      ctx.body = userModel;
+
+    } catch (e) {
+      ctx.throw(500, e);
+    }
+  }
+
+};
