@@ -231,15 +231,15 @@ export const bookmarkCtrl = async ctx => {
   const { user } = ctx.state;
 
   // list bookmarks
-  if (bookmark === 'list') {
-    try {
-      // populate
-      const result = await User.findOne({ _id: user._id }).populate('bookmarkedNoteIds');
-      ctx.body = result.bookmarkedNoteIds;
-    } catch (e) {
-      ctx.throw(500, e);
-    }
+
+  try {
+    // populate
+    const result = await User.findOne({ _id: user._id }).populate('bookmarkedNoteIds');
+    ctx.body = result.bookmarkedNoteIds;
+  } catch (e) {
+    ctx.throw(500, e);
   }
+
 
   if (bookmark === 'add') {
     try {

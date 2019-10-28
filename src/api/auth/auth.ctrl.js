@@ -96,12 +96,16 @@ export const login = async ctx => {
   GET /api/auth/check
 */
 export const check = async ctx => {
-  const { user } = ctx.state;
-  if (!user) {
-    ctx.status = 401; // Unauthorized
-    return;
+  try {
+    const user = await User.findByUsername(ctx.state.user.username);
+    if (!user) {
+      ctx.status = 401;
+      return;
+    }
+    ctx.body = user.serialize();
+  } catch (e) {
+    ctx.throw(500, e);
   }
-  ctx.body = user;
 };
 
 /*

@@ -11,6 +11,7 @@ const UserSchema = new Schema({
       ref: 'Note'
     }
   ],
+  // not in use for version 1
   plan: [{
     noteId: { type: mongoose.Types.ObjectId, ref: 'Note' },
     cookingPortion: Number,
