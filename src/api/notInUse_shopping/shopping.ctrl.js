@@ -27,12 +27,10 @@ export const list = async ctx => {
 */
 export const add = async ctx => {
   const schema = Joi.object().keys({
-    // 객체가 다음 필드를 가지고 있음을 검증
     noteId: Joi.string().required(),
     cookingPortion: Joi.number().required()
   });
 
-  // 검증 후, 검증 실패시 에러처리
   const result = Joi.validate(ctx.request.body, schema);
   if (result.error) {
     ctx.status = 400; // Bad Request
